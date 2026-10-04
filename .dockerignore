@@ -12,3 +12,7 @@ __pycache__
 backups
 *.sqlite3
 *.sqlite3-*
+production.env
+.env.*
+deploy-backups
+output

@@ -13,6 +13,7 @@ from apps.dashboard import intake_views
 from apps.ai import views as ai_views
 from apps.dashboard.source_refresh import refresh_source
 from apps.dashboard.forms import REGISTRY
+from config.health import health
 
 router = DefaultRouter()
 router.register('events', api.EventViewSet, basename='event')
@@ -26,6 +27,7 @@ for section in ['persons', 'places', 'eras', 'evidence', 'relationships']:
     router.register(section, type(model.__name__ + 'ViewSet', (api.ContentViewSet,), {'model': model}), basename=section)
 
 urlpatterns = [
+    path('healthz/', health, name='health'),
     path('', views.landing, name='landing'), path('discover/', views.discover, name='discover'),
     path('journey/', views.journey, name='journey'),
     path('timeline/', views.timeline, name='timeline'), path('explore/<int:pk>/', views.detail, name='detail'),

@@ -11,3 +11,7 @@ test-output/
 *.log
 node_modules/
 backups/
+.env.*
+!.env.example
+production.env
+deploy-backups/
