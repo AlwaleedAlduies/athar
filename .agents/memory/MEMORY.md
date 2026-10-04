@@ -1,0 +1,1 @@
+- [Python dependency inference](python-dependency-inference.md) — Replit package installs may infer obsolete docx from imports; retain python-docx instead.

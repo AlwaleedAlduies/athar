@@ -1,4 +1,5 @@
 .venv/
+.pythonlibs/
 .env
 .local-secret
 .local-access.txt
