@@ -4,31 +4,44 @@
 
 **لا تقرأ التاريخ فقط... عِش أثره.**
 
-## التشغيل السريع
+## التشغيل السريع المباشر (One-Click Quickstart)
 
-يتطلب Python 3.12 أو أحدث. من مجلد `athar`:
+قاعدة البيانات `db.sqlite3` مدرجة مسبقاً بكامل محتواها الموثق (6 محطات كبرى في السيرة النبوية، 46 فقرة سردية، 133 دليلاً ومصدراً)، ويمكن تشغيل المشروع مباشرة دون أي إعداد يدوي:
+
+### على Windows:
+```powershell
+git clone https://github.com/AlwaleedAlduies/athar.git
+cd athar
+.\start.ps1
+```
+
+### على Linux / macOS:
+```bash
+git clone https://github.com/AlwaleedAlduies/athar.git
+cd athar
+chmod +x start.sh
+./start.sh
+```
+
+يقوم السكربت تلقائيًا بإنشاء البيئة الافتراضية `.venv` وتثبيت الاعتمادات وتجهيز السيرفر فورًا.
+
+- **رابط المنصة:** <http://127.0.0.1:8000/>
+- **بوابة الإدارة (أمانة المعرفة):** <http://127.0.0.1:8000/dashboard/>
+- **بيانات حساب الإدارة الجاهز:**
+  - اسم المستخدم: `admin`
+  - كلمة المرور: `admin123456`
+
+---
+
+### التشغيل اليدوي (اختياري)
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.lock
-Copy-Item .env.example .env
 .\.venv\Scripts\python.exe manage.py migrate
-.\.venv\Scripts\python.exe manage.py seed_demo
-.\.venv\Scripts\python.exe manage.py import_dorar_pilot --apply
-.\.venv\Scripts\python.exe manage.py enrich_medina --apply
-.\.venv\Scripts\python.exe manage.py enrich_stories --apply
-.\.venv\Scripts\python.exe manage.py create_demo_admin
 .\.venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000
 ```
-
-افتح <http://127.0.0.1:8000/>. للدخول إلى الإدارة: <http://127.0.0.1:8000/dashboard/>.
-الأمر `create_demo_admin` يطلب كلمة مرور قوية ولا يحتوي على كلمة افتراضية. يمكن تمرير اسم المستخدم بـ `--username`، أو توفير كلمة المرور مرة واحدة في متغير البيئة `ATHAR_ADMIN_PASSWORD`. لا يغيّر الأمر حسابًا موجودًا.
-
-في Windows يمكن تشغيل `./start.ps1` بعد الإعداد؛ ينشئ البيئة إن كانت غير موجودة، ويطبّق الترحيلات وبيانات العرض، ثم يبدأ الخادم. لتغيير المنفذ: `./start.ps1 -Port 8002`.
-
-على Linux/macOS استبدل `.venv\Scripts\python.exe` بـ `.venv/bin/python`.
-
-في نسخة مساحة العمل الحالية أُنشئ حساب إدارة محلي، وبياناته في `.local-access.txt` المستبعد من Git ومن Docker. لا تُنشر هذا الملف. قاعدة البيانات المحلية والملفات المرفوعة والأسرار مستبعدة أيضًا.
+(على Linux/macOS استبدل `.\.venv\Scripts\python.exe` بـ `./.venv/bin/python`).
 
 ## ما الذي يعمل؟
 
