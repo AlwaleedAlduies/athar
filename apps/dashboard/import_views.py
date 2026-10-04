@@ -21,7 +21,11 @@ from apps.ai.configuration import active_identity
 
 @admin_required
 def studio(request):
-    form = ImportSourceForm(request.POST or None, request.FILES or None, initial={'input_kind': 'url', 'event': request.GET.get('event')})
+    initial = {'input_kind': 'url', 'event': request.GET.get('event')}
+    source_id = request.GET.get('source', '')
+    if source_id.isdigit() and HistoricalSource.objects.filter(pk=source_id, is_demo=False, deleted_at__isnull=True).exists():
+        initial.update(input_kind='existing', source=int(source_id))
+    form = ImportSourceForm(request.POST or None, request.FILES or None, initial=initial)
     if request.method == 'POST' and form.is_valid():
         data = form.cleaned_data
         previous = ExtractionRun.objects.filter(token=data['token'], created_by=request.user).first()

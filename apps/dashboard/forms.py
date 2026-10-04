@@ -11,7 +11,7 @@ REGISTRY = {
     'passages': (StoryPassage, 'فقرات السرد'),
     'events': (HistoricalEvent, 'الأحداث'), 'persons': (HistoricalPerson, 'الشخصيات'),
     'places': (HistoricalPlace, 'الأماكن'), 'eras': (HistoricalEra, 'العصور'),
-    'sources': (HistoricalSource, 'المصادر'), 'claims': (HistoricalClaim, 'الادعاءات'),
+    'sources': (HistoricalSource, 'المصادر'), 'claims': (HistoricalClaim, 'المعلومات'),
     'chunks': (SourceChunk, 'مقاطع المصادر'),
     'evidence': (Evidence, 'الأدلة'), 'relationships': (EntityRelationship, 'العلاقات'),
     'simulations': (SimulationScenario, 'المحاكاة'), 'settings': (SystemSetting, 'الإعدادات'),
@@ -71,6 +71,13 @@ class EditorialForm(forms.ModelForm):
         if 'slug' in self.fields:
             self.fields['slug'].required = False
             self.fields['slug'].help_text = 'اختياري؛ يُنشأ تلقائيًا من العنوان إن تركته فارغًا.'
+            self.fields['slug'].error_messages['unique'] = 'هذا الرابط المختصر مستخدم في سجل آخر. اختر رابطًا مختلفًا أو اتركه فارغًا لإنشائه تلقائيًا.'
+        if 'claim_text' in self.fields:
+            self.fields['claim_text'].label = 'المعلومة المراد توثيقها'
+        if 'claim' in self.fields:
+            self.fields['claim'].label = 'المعلومة المراد توثيقها'
+        if 'supporting_claim' in self.fields:
+            self.fields['supporting_claim'].label = 'المعلومة الداعمة للرابطة'
         def chosen(name):
             value = self.data.get(name) if self.is_bound else self.initial.get(name, getattr(self.instance, name + '_id', None))
             return str(getattr(value, 'pk', value) or '')

@@ -19,6 +19,7 @@ from apps.sources.services import process_source
 from apps.knowledge.models import HistoricalClaim
 from .forms import REGISTRY, editor_form
 from .editorial import initial_values, workspace, removal_impact
+from .workflow import form_sections, guidance, parent_context, form_parent
 
 def admin_required(view):
     @wraps(view)
@@ -31,7 +32,11 @@ def admin_required(view):
     return wrapped
 
 def admin_context(**kwargs):
-    return {'admin_nav': [(key, value[1]) for key, value in REGISTRY.items()], **kwargs}
+    groups = [('المصادر والتوثيق', ['sources', 'chunks', 'claims', 'evidence', 'mentions']),
+              ('الحكايات والروابط', ['events', 'passages', 'persons', 'places', 'eras', 'relationships', 'simulations']),
+              ('إعدادات المحتوى', ['settings'])]
+    return {'admin_nav': [(key, value[1]) for key, value in REGISTRY.items()],
+            'admin_groups': [(label, [(key, REGISTRY[key][1]) for key in keys]) for label, keys in groups], **kwargs}
 
 @admin_required
 def dashboard(request):
@@ -39,7 +44,14 @@ def dashboard(request):
     stats += [('ادعاءات تنتظر المراجعة', HistoricalClaim.objects.filter(status__in=[Status.DRAFT, Status.REVIEW]).count(), 'claims'),
               ('مصادر غير معالجة', HistoricalSource.objects.filter(processed_at__isnull=True).count(), 'sources'),
               ('أسئلة تحتاج مراجعة', AIQueryLog.objects.filter(needs_review=True).count(), 'logs')]
-    return render(request, 'dashboard/home.html', admin_context(stats=stats, logs=AIQueryLog.objects.select_related('user', 'event')[:6]))
+    from .models import SourceAnalysis
+    from apps.history.models import StoryPassage
+    return render(request, 'dashboard/home.html', admin_context(stats=stats,
+        pending_claims=HistoricalClaim.objects.filter(status__in=[Status.DRAFT, Status.REVIEW]).count(),
+        pending_passages=StoryPassage.objects.filter(status__in=[Status.DRAFT, Status.REVIEW]).count(),
+        review_runs=SourceAnalysis.objects.select_related('source').filter(status__in=['REVIEW', 'PARTIAL', 'FAILED'])[:6],
+        recent_events=HistoricalEvent.objects.exclude(status=Status.ARCHIVED).order_by('-updated_at')[:5],
+        logs=AIQueryLog.objects.select_related('user', 'event')[:6]))
 
 @admin_required
 def collection(request, section):
@@ -57,6 +69,8 @@ def collection(request, section):
             state = request.GET.get('status', '')
             if state in Status.values:
                 rows = rows.filter(status=state)
+            elif state == 'pending':
+                rows = rows.filter(status__in=[Status.DRAFT, Status.REVIEW])
             elif state != 'all':
                 rows = rows.exclude(status=Status.ARCHIVED)
         query = request.GET.get('q', '').strip()[:200]
@@ -131,8 +145,14 @@ def edit(request, section, pk=None):
             except Exception:
                 messages.error(request, 'حُفظ المصدر، لكن تعذرت قراءة الملف للتحليل. راجع نوعه ثم أعد المعالجة.')
         messages.success(request, 'حُفظ المحتوى. تنعكس حالة النشر مباشرة في رحلة المستكشف.')
+        if request.POST.get('_intent') == 'save-return':
+            parent = parent_context(record)
+            if parent:
+                return redirect(parent['url'])
         return redirect('dashboard-edit', section=section, pk=record.pk)
     return render(request, 'dashboard/edit.html', admin_context(section=section, title=title, form=form, record=instance,
+                  form_sections=form_sections(form, section), guide=guidance(section, instance),
+                  editor_parent=form_parent(form),
                   workspace=workspace(instance) if instance else [],
                   chunks=instance.chunks.all()[:100] if section == 'sources' and instance else []))
 

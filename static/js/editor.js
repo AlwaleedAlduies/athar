@@ -1,4 +1,15 @@
 /* Native form controls remain usable without JavaScript. Filtering never clears choices. */
+const adminNavigation = document.querySelector('.admin-navigation');
+if (adminNavigation) {
+  const compact = matchMedia('(max-width:900px)');
+  const adapt = () => { adminNavigation.open = !compact.matches; };
+  adapt(); compact.addEventListener('change', adapt);
+}
+document.querySelectorAll('.form-section-nav a').forEach(link => link.addEventListener('click', () => {
+  const group = document.querySelector(link.getAttribute('href'));
+  if (group?.tagName === 'DETAILS') group.open = true;
+}));
+document.querySelector('.form-error-summary')?.focus();
 document.querySelectorAll('.editor-form .form-field').forEach(field => {
   const choices = field.querySelector('#id_citations, div:has(input[type="checkbox"])');
   const select = field.querySelector('select');

@@ -1,0 +1,5 @@
+<section class="editor-guide" aria-labelledby="editor-guide-title">
+<div><p class="eyebrow">مسار العمل</p><h2 id="editor-guide-title">{{ guide.title }}</h2><p>{{ guide.text }}</p></div>
+{% if guide.url %}<a class="button small" href="{{ guide.url }}">{{ guide.action }} ←</a>{% endif %}
+{% if guide.steps %}<ol class="readiness-steps">{% for step in guide.steps %}<li class="{% if step.done %}is-done{% endif %}"><span class="step-mark" aria-label="{% if step.done %}مكتمل{% else %}يحتاج مراجعة{% endif %}">{% if step.done %}✓{% else %}{{ forloop.counter }}{% endif %}</span><strong>{{ step.title }}</strong><small>{{ step.detail }}</small></li>{% endfor %}</ol>{% endif %}
+</section>

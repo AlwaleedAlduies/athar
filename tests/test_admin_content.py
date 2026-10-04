@@ -10,6 +10,92 @@ from apps.dashboard.forms import REGISTRY
 
 @override_settings(DEMO_MODE=False)
 class AdminContentTests(TestCase):
+    def test_grouped_editors_preserve_every_field_once(self):
+        from apps.dashboard.forms import editor_form
+        from apps.dashboard.workflow import form_sections
+        for section, (model, _) in REGISTRY.items():
+            form = editor_form(model)()
+            groups = form_sections(form, section)
+            names = [field.name for group in groups for field in group['fields']]
+            self.assertEqual(set(names), set(form.fields), section)
+            self.assertEqual(len(names), len(set(names)), section)
+
+    def test_prefilled_new_evidence_can_return_to_claim_after_first_save(self):
+        url = reverse('dashboard-new', args=['evidence']) + f'?claim={self.claim.pk}'
+        page = self.client.get(url)
+        self.assertEqual(page.context['editor_parent']['url'], reverse('dashboard-edit', args=['claims', self.claim.pk]))
+        response = self.client.post(url, {'claim':self.claim.pk, 'source':self.source.pk,
+            'source_chunk':self.chunk.pk, 'evidence_text':self.chunk.text, 'section':self.chunk.section,
+            'support_type':'SUPPORTS', '_intent':'save-return'})
+        self.assertRedirects(response, reverse('dashboard-edit', args=['claims', self.claim.pk]))
+
+    def test_source_to_studio_keeps_existing_source_and_event(self):
+        page = self.client.get(reverse('extraction-studio'), {'source': self.source.pk, 'event': self.event.pk})
+        self.assertEqual(page.context['form'].initial['source'], self.source.pk)
+        self.assertEqual(page.context['form'].initial['input_kind'], 'existing')
+        self.assertEqual(page.context['form'].initial['event'], str(self.event.pk))
+        self.assertEqual(HistoricalSource.objects.count(), 1)
+        invalid = self.client.get(reverse('extraction-studio'), {'source':'invalid'})
+        self.assertEqual(invalid.context['form'].initial['input_kind'], 'url')
+
+    def test_workflow_reports_real_readiness_without_mutating_records(self):
+        from apps.dashboard.workflow import guidance
+        ready = guidance('events', self.event)
+        self.assertTrue(all(step['done'] for step in ready['steps']))
+        self.assertEqual(ready['url'], self.event.get_absolute_url())
+        self.source.is_approved = False
+        self.source.save()
+        blocked = guidance('events', self.event)
+        self.assertFalse(blocked['steps'][0]['done'])
+        self.assertFalse(blocked['steps'][1]['done'])
+        self.assertFalse(blocked['steps'][4]['done'])
+        self.assertEqual(blocked['url'], reverse('source-intake'))
+        self.event.refresh_from_db()
+        self.assertEqual(self.event.status, 'PUBLISHED')
+
+    def test_draft_event_guides_publication_before_publishing_its_story(self):
+        from apps.dashboard.workflow import guidance
+        self.event.status = 'DRAFT'
+        self.event.save()
+        guide = guidance('events', self.event)
+        self.assertEqual(guide['url'], '#group-publication')
+        self.assertIn('مسودات', guide['text'])
+        page = self.client.get(reverse('dashboard-edit', args=['passages', self.passage.pk]))
+        self.assertContains(page, 'الحدث ما زال غير متاح للزوار')
+        self.assertEqual(page.context['editor_parent']['url'], reverse('dashboard-edit', args=['events', self.event.pk]))
+
+    def test_save_return_uses_saved_parent_not_external_next_url(self):
+        result = self.client.post(reverse('dashboard-edit', args=['passages', self.passage.pk]), {
+            'event': self.event.pk, 'chapter': 'مراجعة', 'position': 2, 'text': 'نص محرر',
+            'citations': [self.claim.pk], 'status': 'DRAFT', '_intent': 'save-return',
+            'next': 'https://example.test/untrusted'})
+        self.assertRedirects(result, reverse('dashboard-edit', args=['events', self.event.pk]))
+        self.passage.refresh_from_db()
+        self.assertEqual(self.passage.text, 'نص محرر')
+        result = self.client.post(reverse('dashboard-edit', args=['evidence', self.proof.pk]), {
+            'claim': self.claim.pk, 'source': self.source.pk, 'source_chunk': self.chunk.pk,
+            'evidence_text': self.chunk.text, 'section': self.chunk.section,
+            'support_type': 'SUPPORTS', '_intent': 'save-return'})
+        self.assertRedirects(result, reverse('dashboard-edit', args=['claims', self.claim.pk]))
+
+    def test_validation_summary_keeps_changes_and_opens_group_with_errors(self):
+        result = self.client.post(reverse('dashboard-new', args=['persons']), {
+            'title': 'عنوان احتفظ به', 'slug': self.event.slug, 'status': 'DRAFT', '_intent': 'save-return'})
+        self.assertEqual(result.status_code, 200)
+        self.assertContains(result, 'لم يُحفظ المحتوى بعد')
+        self.assertContains(result, 'عنوان احتفظ به')
+        self.assertFalse(next(group for group in result.context['form_sections'] if group['key'] == 'advanced')['collapsed'])
+
+    def test_review_queue_counts_match_pending_filter(self):
+        HistoricalClaim.objects.create(event=self.event, claim_text='مسودة', status='DRAFT')
+        HistoricalClaim.objects.create(event=self.event, claim_text='مراجعة', status='REVIEW')
+        HistoricalClaim.objects.create(event=self.event, claim_text='أرشيف', status='ARCHIVED')
+        home = self.client.get(reverse('dashboard'))
+        listing = self.client.get(reverse('dashboard-list', args=['claims']), {'status': 'pending'})
+        self.assertEqual(home.context['pending_claims'], 2)
+        self.assertEqual(listing.context['page'].paginator.count, 2)
+        self.assertContains(home, 'ترتيب المراجعة والنشر')
+
     def setUp(self):
         self.admin = User.objects.create_user('content-editor', password='test-only', role='ADMIN')
         self.client.force_login(self.admin)
