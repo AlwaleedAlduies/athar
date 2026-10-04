@@ -89,6 +89,14 @@ class ProductionSettingsTests(SimpleTestCase):
                                 ALLOWED_HOSTS='', CSRF_TRUSTED_ORIGINS='')
         self.assertEqual(result.returncode, 0, result.stderr)
 
+    def test_replit_uses_existing_signing_secret(self):
+        result = self.run_check(
+            DJANGO_SETTINGS_MODULE='config.replit_production',
+            SECRET_KEY='',
+            SESSION_SECRET='test-only-replit-signing-secret-' * 3,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_unsafe_configuration_refused(self):
         for changes, message in [({'DEBUG': 'true'}, 'requires DEBUG=false'),
                                  ({'DEMO_MODE': 'true'}, 'requires DEMO_MODE=false'),

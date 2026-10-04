@@ -7,12 +7,6 @@ if os.environ.get('SESSION_SECRET'):
 from .settings import *  # noqa: F403, E402
 
 DEBUG = True
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',  # noqa: F405
-    },
-}
 ALLOWED_HOSTS = ['*']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_TRUSTED_ORIGINS = [
