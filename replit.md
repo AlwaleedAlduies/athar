@@ -40,6 +40,11 @@ DJANGO_SETTINGS_MODULE=config.replit python manage.py test tests --noinput
 
 ## Before publishing
 
+The Autoscale publish command is `env PORT=5000 python deploy/serve.py`, using
+the existing production server rather than the preview workflow. Publishing
+still requires the production configuration below; correcting the run command
+alone does not make it ready.
+
 This is a development preview, not a production deployment. The imported README
 documents a shared demo administrator password; replace it before exposing the
 app to other users. Production setup is documented in `PRODUCTION.md` and
