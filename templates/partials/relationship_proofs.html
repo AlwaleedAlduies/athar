@@ -1,0 +1,11 @@
+{% if links %}
+<div class="relationship-proofs">
+{% for link in links %}
+<article class="relationship-proof">
+  <div class="relationship-route"><a href="{{ link.from_entity.get_absolute_url }}">{{ link.from_entity.title }}</a><span>{{ link.get_relation_type_display }}</span><a href="{{ link.to_entity.get_absolute_url }}">{{ link.to_entity.title }}</a></div>
+  <p>{{ link.notes }}</p>
+  <button type="button" class="text-link" data-trace="{{ link.supporting_claim_id }}">لماذا هذه الرابطة؟ <span aria-hidden="true">↗</span></button>
+</article>
+{% endfor %}
+</div>
+{% endif %}

@@ -1,0 +1,127 @@
+{
+  "checked_at": "2026-10-02T12:37:20.399890+00:00",
+  "method": "HTTP GET; visible text substring comparison, ignoring whitespace and bidi formatting only; no full page stored. This checks attribution, not independent historical authentication.",
+  "results": [
+    {
+      "source": "dorar-history-42",
+      "url": "https://dorar.net/history/event/42",
+      "final_url": "https://dorar.net/history/event/42",
+      "status": 200,
+      "matches": [
+        true
+      ]
+    },
+    {
+      "source": "dorar-history-59",
+      "url": "https://dorar.net/history/event/59",
+      "final_url": "https://dorar.net/history/event/59",
+      "status": 200,
+      "matches": [
+        true,
+        true
+      ]
+    },
+    {
+      "source": "dorar-history-69",
+      "url": "https://dorar.net/history/event/69",
+      "final_url": "https://dorar.net/history/event/69",
+      "status": 200,
+      "matches": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "source": "dorar-history-84",
+      "url": "https://dorar.net/history/event/84",
+      "final_url": "https://dorar.net/history/event/84",
+      "status": 200,
+      "matches": [
+        true
+      ]
+    },
+    {
+      "source": "dorar-history-101",
+      "url": "https://dorar.net/history/event/101",
+      "final_url": "https://dorar.net/history/event/101",
+      "status": 200,
+      "matches": [
+        true
+      ]
+    },
+    {
+      "source": "dorar-history-127",
+      "url": "https://dorar.net/history/event/127",
+      "final_url": "https://dorar.net/history/event/127",
+      "status": 200,
+      "matches": [
+        true
+      ]
+    },
+    {
+      "source": "dorar-badr-miqdad-4609",
+      "url": "https://dorar.net/hadith/sharh/12023",
+      "final_url": "https://dorar.net/hadith/sharh/12023",
+      "status": 200,
+      "matches": [
+        true,
+        true
+      ]
+    },
+    {
+      "source": "dorar-badr-consultation",
+      "url": "https://dorar.net/h/edJ1xWXx",
+      "final_url": "https://dorar.net/h/edJ1xWXx",
+      "status": 200,
+      "matches": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "source": "dorar-uhud-archers-3039",
+      "url": "https://dorar.net/hadith/sharh/23353",
+      "final_url": "https://dorar.net/hadith/sharh/23353",
+      "status": 200,
+      "matches": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "source": "hadeethenc-uhud-service-66336",
+      "url": "https://hadeethenc.com/ar/browse/hadith/66336",
+      "final_url": "https://hadeethenc.com/ar/browse/hadith/66336",
+      "status": 200,
+      "matches": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "source": "dorar-khandaq-work-2834",
+      "url": "https://dorar.net/hadith/sharh/16261",
+      "final_url": "https://dorar.net/hadith/sharh/16261",
+      "status": 200,
+      "matches": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "source": "dorar-khandaq-hudhayfah-7125",
+      "url": "https://dorar.net/h/RP5zMD00",
+      "final_url": "https://dorar.net/h/RP5zMD00",
+      "status": 200,
+      "matches": [
+        true,
+        true
+      ]
+    }
+  ]
+}

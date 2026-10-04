@@ -1,0 +1,11 @@
+<div class="role-grid">
+{% for person in people %}
+<article class="role-card">
+  <a class="role-person" href="{{ person.get_absolute_url }}"><span class="entity-initial" aria-hidden="true">{{ person.title|slice:':1' }}</span><strong>{{ person.title }}</strong><span aria-hidden="true">↗</span></a>
+  {% for link in person.role_links %}
+  <span class="role-kind {% if link.relation_type == 'NARRATED' %}narrator{% endif %}">{{ link.get_relation_type_display }}</span>
+  <p>{{ link.notes }}</p><button type="button" class="text-link" data-trace="{{ link.supporting_claim_id }}">دليل الدور ↗</button>
+  {% empty %}<p class="muted">شخصية مرتبطة بالسجل؛ لم يُضف لها دليل دور مستقل بعد.</p>{% endfor %}
+</article>
+{% empty %}<p class="muted">لم تُربط شخصيات بعد.</p>{% endfor %}
+</div>

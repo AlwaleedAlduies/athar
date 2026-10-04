@@ -1,0 +1,398 @@
+{
+  "accessed_on": "2026-10-04",
+  "method": "Live public HTML fetch; whitespace normalized only; checks stored excerpts, not automatic historical interpretation.",
+  "sources": [
+    {
+      "slug": "hadeethenc-uhud-service-66336",
+      "url": "https://hadeethenc.com/ar/browse/hadith/66336",
+      "final_url": "https://hadeethenc.com/ar/browse/hadith/66336",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن رواية أنس — أبو طلحة",
+          "exact_match": true
+        },
+        {
+          "section": "متن رواية أنس — تسمية عائشة وأم سليم",
+          "exact_match": true
+        },
+        {
+          "section": "متن رواية أنس — سقي الماء",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-khandaq-work-2834",
+      "url": "https://dorar.net/hadith/sharh/16261",
+      "final_url": "https://dorar.net/hadith/sharh/16261",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن الحديث 2834 — مشهد الحفر",
+          "exact_match": true
+        },
+        {
+          "section": "متن الحديث 2834 — حضور النبي إلى الخندق",
+          "exact_match": true
+        },
+        {
+          "section": "بيانات الحديث 2834 — اسم الراوي",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-history-101",
+      "url": "https://dorar.net/history/event/101",
+      "final_url": "https://dorar.net/history/event/101",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "تفاصيل الحدث — فقرة شروط الصلح",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-history-69",
+      "url": "https://dorar.net/history/event/69",
+      "final_url": "https://dorar.net/history/event/69",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "تفاصيل الحدث — فقرة توزيع مواقع القتال",
+          "exact_match": true
+        },
+        {
+          "section": "تفاصيل الحدث — توزيع فرسان قريش",
+          "exact_match": true
+        },
+        {
+          "section": "رأس صفحة أُحد — السنة الهجرية",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-history-84",
+      "url": "https://dorar.net/history/event/84",
+      "final_url": "https://dorar.net/history/event/84",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "تفاصيل الحدث — فقرة اختلاف العلماء في الزمن",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-history-59",
+      "url": "https://dorar.net/history/event/59",
+      "final_url": "https://dorar.net/history/event/59",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "تفاصيل الحدث — بداية فقرة نتيجة المعركة",
+          "exact_match": true
+        },
+        {
+          "section": "تفاصيل الحدث — رئاسة القافلة قبل بدر",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-history-127",
+      "url": "https://dorar.net/history/event/127",
+      "final_url": "https://dorar.net/history/event/127",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "تفاصيل الحدث — فقرة رواية ابن عباس عن المسير",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-history-42",
+      "url": "https://dorar.net/history/event/42",
+      "final_url": "https://dorar.net/history/event/42",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "تفاصيل الحدث — خاتمة فقرة الدليل وطريق السفر",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "sunnah-badr-prayer-10555",
+      "url": "https://sunnah.global/hadeeth/ar/show/10555",
+      "final_url": "https://sunnah.global/hadeeth/ar/show/10555",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن الحديث — الدعاء ورداء النبي ﷺ",
+          "exact_match": true
+        },
+        {
+          "section": "متن الحديث — المشورة في الأسرى",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-uhud-archers-3039",
+      "url": "https://dorar.net/hadith/sharh/23353",
+      "final_url": "https://dorar.net/hadith/sharh/23353",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن الحديث 3039 — تعيين القائد وعدد الرماة",
+          "exact_match": true
+        },
+        {
+          "section": "متن الحديث 3039 — الأمر بالبقاء",
+          "exact_match": true
+        },
+        {
+          "section": "متن الحديث 3039 — كلام أبي سفيان بعد القتال",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-badr-consultation",
+      "url": "https://dorar.net/h/edJ1xWXx",
+      "final_url": "https://dorar.net/h/edJ1xWXx",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن رواية أنس — المشورة قبل اللقاء",
+          "exact_match": true
+        },
+        {
+          "section": "متن رواية أنس — مشورة أبي بكر",
+          "exact_match": true
+        },
+        {
+          "section": "متن رواية أنس — مشورة عمر",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-uhud-musab-940",
+      "url": "https://dorar.net/h/7JExWAgI?sims=1",
+      "final_url": "https://dorar.net/h/7JExWAgI?sims=1",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن رواية خباب — استشهاد مصعب وكفنه",
+          "exact_match": true
+        },
+        {
+          "section": "متن رواية خباب — أمر التكفين",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "sunnah-khandaq-jabir-5818",
+      "url": "https://sunnah.global/hadeeth/ar/show/5818",
+      "final_url": "https://sunnah.global/hadeeth/ar/show/5818",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "الرواية الأولى — ما كان في بيت جابر",
+          "exact_match": true
+        },
+        {
+          "section": "الرواية الأولى — إطعام أهل الخندق",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-khandaq-hudhayfah-7125",
+      "url": "https://dorar.net/h/RP5zMD00",
+      "final_url": "https://dorar.net/h/RP5zMD00",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن الحديث 7125 — تكليف حذيفة",
+          "exact_match": true
+        },
+        {
+          "section": "متن الحديث 7125 — ما رآه حذيفة في المعسكر",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "dorar-badr-miqdad-4609",
+      "url": "https://dorar.net/hadith/sharh/12023",
+      "final_url": "https://dorar.net/hadith/sharh/12023",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن الحديث 4609 — تسمية المقداد والحدث",
+          "exact_match": true
+        },
+        {
+          "section": "متن الحديث 4609 — موقف المقداد",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "bukhari-hijrah-3905",
+      "url": "https://sunnah.com/bukhari:3905",
+      "final_url": "https://sunnah.com/bukhari:3905",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "الاستعداد للصحبة وتجهيز الراحلتين",
+          "exact_match": true
+        },
+        {
+          "section": "تجهيز الزاد وربط الجراب",
+          "exact_match": true
+        },
+        {
+          "section": "غار ثور — نقل أخبار قريش",
+          "exact_match": true
+        },
+        {
+          "section": "غار ثور — الغنم واللبن",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "bukhari-cave-3653",
+      "url": "https://sunnah.com/bukhari:3653",
+      "final_url": "https://sunnah.com/bukhari:3653",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "جواب النبي ﷺ لأبي بكر في الغار",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "bukhari-arrival-3906",
+      "url": "https://sunnah.com/bukhari:3906",
+      "final_url": "https://sunnah.com/bukhari:3906",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "خبر سراقة — طلب الأمان بعد المطاردة",
+          "exact_match": true
+        },
+        {
+          "section": "خبر عروة — انتظار القادم والوصول يوم الاثنين في ربيع الأول",
+          "exact_match": true
+        },
+        {
+          "section": "خبر عروة — الإقامة ثم بناء المسجد",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "bukhari-hudaybiyyah-2731",
+      "url": "https://sunnah.com/bukhari:2731",
+      "final_url": "https://sunnah.com/bukhari:2731",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "كتابة شروط الصلح ومجيء أبي جندل",
+          "exact_match": true
+        },
+        {
+          "section": "مجيء أبي جندل أثناء الاتفاق",
+          "exact_match": true
+        },
+        {
+          "section": "سؤال عمر للنبي ﷺ ثم لأبي بكر",
+          "exact_match": true
+        },
+        {
+          "section": "المشورة بالنحر والحلق ثم اقتداء الصحابة",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "bukhari-uthman-3698",
+      "url": "https://sunnah.com/bukhari:3698",
+      "final_url": "https://sunnah.com/bukhari:3698",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "بيان ابن عمر — عثمان في مكة والبيعة عنه",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "bukhari-ridwan-4150",
+      "url": "https://sunnah.com/bukhari:4150",
+      "final_url": "https://sunnah.com/bukhari:4150",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "افتتاح الخبر — معنى الفتح في ذاكرة البراء",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "hadeethenc-conquest-10846",
+      "url": "https://hadeethenc.com/ar/browse/hadith/10846",
+      "final_url": "https://hadeethenc.com/ar/browse/hadith/10846",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن الحديث — توزيع الجيش عند دخول مكة",
+          "exact_match": true
+        },
+        {
+          "section": "متن الحديث — إعلان الأمان",
+          "exact_match": true
+        },
+        {
+          "section": "متن الحديث — جواب الأنصار",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "bukhari-makkah-1834",
+      "url": "https://sunnah.com/bukhari:1834",
+      "final_url": "https://sunnah.com/bukhari:1834",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "قول النبي ﷺ يوم الفتح — استمرار حرمة مكة",
+          "exact_match": true
+        }
+      ]
+    },
+    {
+      "slug": "bukhari-idols-4287",
+      "url": "https://sunnah.com/bukhari:4287",
+      "final_url": "https://sunnah.com/bukhari:4287",
+      "status": 200,
+      "excerpts": [
+        {
+          "section": "متن الحديث — الأصنام حول الكعبة",
+          "exact_match": true
+        }
+      ]
+    }
+  ]
+}

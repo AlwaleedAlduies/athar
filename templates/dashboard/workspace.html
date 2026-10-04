@@ -1,0 +1,6 @@
+{% if workspace %}<section class="editor-workspace section" aria-labelledby="workspace-title">
+<div class="section-heading"><div><p class="eyebrow">حرر المحتوى في سياقه</p><h2 id="workspace-title">المحتوى المرتبط</h2></div></div>
+{% if section == 'events' %}<p class="notice">السرد الظاهر للزائر يأتي من «فقرات السرد» عند وجود فقرات منشورة. حرر نص الفقرة وعنوان فصلها وترتيبها هناك. أما حقول السياق المختصر أدناه فتُستخدم عند غياب السرد. الشخصيات والأماكن تُختار من النموذج، وأدوارها وأدلتها تُحرر من الروابط.</p>{% endif %}
+<div class="workspace-grid">{% for group in workspace %}<section class="paper"><header><h3>{{ group.title }} <span class="badge">{{ group.count }}</span></h3><a class="text-link" href="{{ group.add_url }}">+ إضافة</a></header>
+{% for item in group.rows %}<a class="workspace-row" href="{% url 'dashboard-edit' group.section item.pk %}"><span>{% if group.section == 'passages' %}{{ item.position }} · {{ item.chapter }}<small>{{ item.text|truncatechars:125 }}</small>{% else %}{{ item|truncatechars:140 }}{% endif %}</span>{% if item.status %}<small>{{ item.get_status_display }}</small>{% endif %}</a>{% empty %}<p class="muted">لا توجد عناصر بعد.</p>{% endfor %}
+<a class="text-link" href="{{ group.list_url }}">افتح السجل الكامل ←</a></section>{% endfor %}</div></section>{% endif %}

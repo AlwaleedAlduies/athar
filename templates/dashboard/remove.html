@@ -1,0 +1,8 @@
+{% extends 'dashboard/base.html' %}{% block admin_content %}
+<div class="breadcrumb"><a href="{% url 'dashboard-edit' section record.pk %}">عد إلى التحرير</a><span>/</span><span>مراجعة الإزالة</span></div>
+<section class="paper"><h1>{% if can_restore %}إزالة المحتوى من العرض{% else %}حذف العنصر{% endif %}</h1><h2>{{ record }}</h2>
+{% if can_restore %}<p>سينتقل هذا العنصر إلى الأرشيف ويختفي من صفحات الزوار. تستطيع استعادته كمسودة من سجل المؤرشف.</p>{% else %}<p>سيُحذف هذا العنصر نهائيًا. راجع استخداماته قبل المتابعة.</p>{% endif %}
+{% if impact.claims or impact.passages or impact.relationships %}<p class="notice">يرتبط به {{ impact.claims }} من المعلومات، و{{ impact.passages }} من فقرات السرد، و{{ impact.relationships }} من الروابط. قد تختفي الفقرات والروابط التي تفقد دليلها بعد الإزالة؛ لا تُحذف سجلاتها تلقائيًا.</p>{% endif %}
+{% if impact.protected_chunk %}<p class="notice">المقطع مستخدم في استشهادات، لذلك لا يمكن حذفه الآن. أضف المقطع البديل ثم صحح الأدلة وروابط الذكر المرتبطة به.</p>{% endif %}
+<div class="actions"><a class="button secondary" href="{% url 'dashboard-edit' section record.pk %}">احتفظ بالمحتوى وارجع</a>{% if not impact.protected_chunk %}<form method="post" action="{% url 'dashboard-remove' section record.pk %}">{% csrf_token %}<button class="button danger" type="submit">{% if can_restore %}تأكيد النقل إلى الأرشيف{% else %}تأكيد الحذف النهائي{% endif %}</button></form>{% endif %}</div>
+</section>{% endblock %}

@@ -1,0 +1,11 @@
+<section class="story-reader" aria-label="الحكاية الموثقة">
+  <div class="story-reader-head"><div><span class="eyebrow">حكاية تتبع أثرها</span><h2>اقترب من المشهد</h2></div><span class="reading-time">{{ reading_minutes }} دقائق قراءة</span></div>
+  <p class="story-guide"><span aria-hidden="true">✦</span> كل فقرة باب إلى دليلها. انقر على أي موضع في النص لفتح الاستشهاد.</p>
+  {% if story_missing %}<p class="notice compact">بعض فقرات هذا السرد تنتظر استكمال مراجعة استشهاداتها.</p>{% endif %}
+  {% regroup story_passages by chapter as chapters %}
+  <nav class="story-contents" aria-label="فصول الحكاية">{% for chapter in chapters %}<a href="#story-chapter-{{ forloop.counter }}"><span>{{ forloop.counter|stringformat:'02d' }}</span>{{ chapter.grouper }}</a>{% endfor %}</nav>
+  {% for chapter in chapters %}<section class="story-chapter" id="story-chapter-{{ forloop.counter }}"><header><span class="chapter-number" aria-hidden="true">{{ forloop.counter|stringformat:'02d' }}</span><h3>{{ chapter.grouper }}</h3></header>
+  {% for passage in chapter.list %}<p class="story-paragraph" id="passage-{{ passage.pk }}"><button type="button" class="story-text" data-story="{{ passage.pk }}" aria-describedby="story-citation-hint"><span>{{ passage.text }}</span><span class="story-reference-mark" aria-hidden="true">✧</span></button></p>{% endfor %}
+  </section>{% endfor %}
+  <span id="story-citation-hint" class="sr-only">افتح استشهاد هذه الفقرة. يمكن استخدام Enter أو المسافة.</span>
+</section>

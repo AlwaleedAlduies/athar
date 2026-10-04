@@ -1,0 +1,2 @@
+-r requirements.lock
+reportlab>=4,<5

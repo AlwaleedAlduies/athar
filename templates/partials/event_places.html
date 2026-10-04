@@ -1,0 +1,5 @@
+<div class="event-places">
+{% for place in places %}<div class="event-place"><a class="tag" href="{{ place.get_absolute_url }}">⌖ {{ place.title }}</a>
+{% for link in place.evidence_links %}<p>{{ link.notes }}</p><button type="button" class="text-link" data-trace="{{ link.supporting_claim_id }}">دليل ارتباط المكان ↗</button>{% endfor %}</div>
+{% empty %}<span class="muted">لم تُربط أماكن بعد.</span>{% endfor %}
+</div>

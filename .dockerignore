@@ -1,0 +1,14 @@
+.venv
+.env
+.local-secret
+.local-access.txt
+db.sqlite3
+media
+staticfiles
+test-output
+__pycache__
+.git
+*.log
+backups
+*.sqlite3
+*.sqlite3-*

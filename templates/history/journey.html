@@ -1,0 +1,44 @@
+{% extends 'base.html' %}{% load static %}
+{% block title %}رحلة عبر الأثر | أثَر{% endblock %}
+{% block extra_head %}<script defer src="{% static 'js/journey.js' %}?v=20261003-3"></script>{% endblock %}
+{% block content %}
+<div class="journey-page container">
+  <div class="journey-heading"><div><p class="eyebrow">مسار الاكتشاف · EXPERIENCE ATHAR</p><h1>{% if focused %}من بدر إلى الخندق{% else %}بين لحظةٍ وأخرى… أثر.{% endif %}</h1></div><a href="{% url 'timeline' %}" class="text-link">عرض خط الزمن <span aria-hidden="true">↗</span></a></div>
+  {% if focused %}<p class="focus-intro">ثلاث محطات لفهم المشورة والقرار والدفاع. افتح سجل المحطة لتتبع أدوار الشخصيات والمصادر. <a href="{% url 'journey' %}">كل المحطات ↗</a></p>{% endif %}
+  {% if stations %}
+  <div id="journey" class="journey-shell" data-tone="journey" tabindex="-1">
+    <div class="journey-topbar"><span><i class="live-dot" aria-hidden="true"></i> رحلة على مهل</span><span id="journey-count"></span><button id="motion-toggle" type="button" aria-pressed="false">تقليل الحركة</button></div>
+    <div class="journey-body">
+      <div class="journey-story">
+        <p class="journey-kicker" id="station-kicker"></p>
+        <h2 id="station-title"></h2><div class="journey-dates" id="station-date"></div>
+        <div class="chapter-tabs" role="tablist" aria-label="فصول المحطة">
+          <button type="button" id="chapter-scene" role="tab" aria-selected="true" aria-controls="chapter-content" data-chapter="scene"><span>01</span> المشهد</button>
+          <button type="button" id="chapter-context" role="tab" aria-selected="false" aria-controls="chapter-content" tabindex="-1" data-chapter="context"><span>02</span> الأثر</button>
+          <button type="button" id="chapter-evidence" role="tab" aria-selected="false" aria-controls="chapter-content" tabindex="-1" data-chapter="evidence"><span>03</span> الدليل</button>
+        </div>
+        <section id="chapter-content" class="chapter-content" role="tabpanel" aria-labelledby="chapter-scene" tabindex="0"><h3 id="chapter-heading"></h3><p id="chapter-copy"></p><div id="chapter-links" class="journey-chips"></div></section>
+        <p id="journey-reference" class="journey-reference" hidden></p>
+        <p id="journey-disclosure" class="journey-disclosure" hidden>◇ محتوى تجريبي يحتاج مراجعة المصدر.</p>
+        <a id="station-detail" class="button journey-cta" href="{% url 'timeline' %}">تعمّق في الحدث <span aria-hidden="true">←</span></a>
+      </div>
+      <div class="journey-universe" aria-label="روابط المحطة الحالية">
+        <div class="universe-top"><span class="universe-label">أطلس الأثر</span><span class="compass-mark" aria-hidden="true">✳</span></div>
+        <svg class="orbit-art" viewBox="0 0 600 600" aria-hidden="true"><defs><radialGradient id="orbit-glow"><stop stop-color="#bfa774" stop-opacity=".2"/><stop offset="1" stop-color="#bfa774" stop-opacity="0"/></radialGradient><linearGradient id="orbit-gold"><stop stop-color="#dfc68e"/><stop offset="1" stop-color="#769a91" stop-opacity=".1"/></linearGradient></defs><circle cx="300" cy="300" r="280" fill="url(#orbit-glow)"/><g class="orbit-rings" fill="none" stroke="#bba979"><circle cx="300" cy="300" r="238" stroke-opacity=".19"/><circle cx="300" cy="300" r="214" stroke-opacity=".23" stroke-dasharray="1 12"/><circle cx="300" cy="300" r="173" stroke-opacity=".17"/><circle cx="300" cy="300" r="138" stroke-opacity=".1"/><path d="M62 300H538M300 62V538" stroke-opacity=".09"/><path d="M104 435Q215 327 465 167" stroke-opacity=".35" stroke-dasharray="3 7"/></g><path class="orbit-trail" d="M 98 426 A 238 238 0 1 1 504 421" pathLength="1" fill="none" stroke="url(#orbit-gold)" stroke-width="1.5"/><g fill="#dcc28a"><circle cx="99" cy="426" r="4"/><circle cx="463" cy="128" r="4"/><circle cx="80" cy="210" r="2"/><circle cx="506" cy="419" r="3"/><path d="M300 53l4 9-4 9-4-9Z"/></g></svg>
+        <div class="orbit-center"><span id="orbit-era"></span><strong id="orbit-year"></strong><span id="orbit-date"></span><span class="orbit-center-rule"></span><small id="orbit-precision"></small></div>
+        <div class="orbit-note orbit-place"><span>المكان</span><strong id="orbit-place"></strong></div>
+        <a class="orbit-note orbit-person" id="orbit-person-link" href="#"><span>من خيوط المشهد</span><strong id="orbit-person"></strong></a>
+        <a class="orbit-note orbit-evidence" id="orbit-source-link" href="#"><span>المصدر والسؤال</span><strong id="orbit-source"></strong><span aria-hidden="true">↗</span></a>
+        <p class="universe-caption">روابط معرفية، لا خريطة جغرافية</p>
+      </div>
+    </div>
+    <div class="journey-bottom"><div class="journey-navigation"><button id="station-prev" type="button" aria-label="المحطة السابقة">→</button><span id="journey-progress-text"></span><button id="station-next" type="button" aria-label="المحطة التالية">←</button></div><p id="next-station-hint"></p><button id="journey-restart" type="button" hidden>أعد اكتشاف الرحلة ↺</button></div>
+    <div class="journey-progress" role="progressbar" aria-label="تقدم الرحلة" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+  </div>
+  <nav id="station-rail" class="station-rail" aria-label="محطات الرحلة"></nav>
+  <p class="journey-keyboard"><span aria-hidden="true">⌁</span> اختر محطة، ثم تنقّل بين المشهد والأثر والدليل. <span class="desktop-hint">يمكنك استخدام مفتاحَي الأسهم للتنقّل بين المحطات.</span></p>
+  <p id="journey-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  <noscript><div class="notice">تحتاج الرحلة التفاعلية إلى JavaScript. <a href="{% url 'timeline' %}">استكشف الأحداث في خط الزمن</a>.</div></noscript>
+  {% else %}<div class="empty"><h2>كل رحلة تبدأ بأثر.</h2><p>ستظهر هنا المحطات بعد نشر الأحداث.</p><a class="button" href="{% url 'discover' %}">عد إلى الاستكشاف</a></div>{% endif %}
+</div>{{ stations|json_script:'journey-data' }}
+{% endblock %}

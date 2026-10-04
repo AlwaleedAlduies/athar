@@ -1,0 +1,9 @@
+{% if previous_event or next_event %}
+<nav class="event-sequence paper" aria-label="محطات مختارة على خط الزمن">
+  <div><p class="eyebrow">واصل الحكاية</p><h2>محطات مختارة على خط الزمن</h2><p class="muted">انتقال زمني بين موضوعات المكتبة؛ قد تقع بينهما أحداث أخرى.</p></div>
+  <div class="event-sequence-links">
+    {% if previous_event %}<a href="{{ previous_event.get_absolute_url }}"><small>المحطة السابقة · {{ previous_event.hijri_label }}</small><strong>{{ previous_event.title }}</strong></a>{% endif %}
+    {% if next_event %}<a href="{{ next_event.get_absolute_url }}"><small>المحطة التالية · {{ next_event.hijri_label }}</small><strong>{{ next_event.title }} ←</strong></a>{% endif %}
+  </div>
+</nav>
+{% endif %}

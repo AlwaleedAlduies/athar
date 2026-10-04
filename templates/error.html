@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<div class="container page empty"><span>◇</span><h1>توقّفت هذه الخطوة قليلًا.</h1><p>{{ message|default:'تعذر الوصول إلى الصفحة المطلوبة.' }}</p><a class="button" href="{% url 'timeline' %}">عد إلى خط الزمن</a></div>{% endblock %}

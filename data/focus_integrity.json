@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-10-02T12:46:26.408161+00:00",
+  "events_added_during_enrichment": 0,
+  "public_events": 6,
+  "focused_events": 3,
+  "focused_claims": 20,
+  "distinct_focused_sources": 9,
+  "documented_roles": 16,
+  "supported_relationships": 28,
+  "events": [
+    {
+      "id": 11,
+      "slug": "badr",
+      "people": 5,
+      "sources": 3,
+      "claims": 6
+    },
+    {
+      "id": 24,
+      "slug": "uhud",
+      "people": 7,
+      "sources": 3,
+      "claims": 8
+    },
+    {
+      "id": 26,
+      "slug": "khandaq",
+      "people": 4,
+      "sources": 4,
+      "claims": 6
+    }
+  ]
+}

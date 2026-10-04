@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: athar
+      POSTGRES_USER: athar
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U athar"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  web:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://athar:${POSTGRES_PASSWORD}@db:5432/athar
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - source_files:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  postgres_data:
+  source_files:

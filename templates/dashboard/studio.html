@@ -1,0 +1,8 @@
+{% extends 'dashboard/base.html' %}{% block admin_content %}
+<header class="studio-heading"><p class="eyebrow">من المصدر إلى الحكاية</p><h1>استوديو المعرفة</h1><p>أضف مصدرًا، اختر نصوصه، ثم راجع المعلومات والسرد الذي يقترحه الذكاء الاصطناعي.</p></header>
+<ol class="studio-steps"><li class="active">المصدر</li><li>المقاطع</li><li>الاقتراح والمراجعة</li><li>المسودات</li></ol>
+<form method="post" enctype="multipart/form-data" class="paper studio-form" data-busy-form>{% csrf_token %}{{ form.token }}{{ form.non_field_errors }}
+<div class="editor-grid">{% for field in form.visible_fields %}<div class="form-field" {% if field.name == 'url' %}data-input-kind="url"{% elif field.name == 'document' %}data-input-kind="file"{% elif field.name == 'source' %}data-input-kind="existing"{% endif %}>{{ field.errors }}{{ field.label_tag }}{{ field }}{% if field.name == 'document' %}<small>حتى ١٠ ميغابايت. PDF النصي، DOCX، TXT؛ الملفات المصورة تحتاج OCR.</small>{% elif field.name == 'url' %}<small>تُقرأ صفحة عامة واحدة. المواقع التي تتطلب تسجيل دخول أو JavaScript قد تحتاج نسخة نصية.</small>{% endif %}</div>{% endfor %}</div>
+<div class="editor-actions"><button type="submit" class="button" data-busy-label="نقرأ المصدر…">اقرأ المصدر وحدد المقاطع ←</button></div></form>
+<section class="section"><h2>جلسات الاستخراج</h2><div class="studio-runs">{% for run in runs %}<a class="paper studio-run" href="{% url 'extraction-run' run.pk %}"><span class="badge neutral">{{ run.get_status_display }}</span><strong>{{ run.source.title }}</strong><small>{{ run.event.title }} · {{ run.created_at|date:'Y/m/d H:i' }}</small></a>{% empty %}<p class="empty">ابدأ بمصدر للحدث الذي تعمل عليه.</p>{% endfor %}</div></section>
+{% endblock %}
