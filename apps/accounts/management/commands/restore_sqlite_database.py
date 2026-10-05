@@ -2,18 +2,37 @@
 import io
 import json
 import os
+from datetime import datetime
 from pathlib import Path
 import tempfile
 
 from django.apps import apps
 from django.conf import settings
+from django.core import serializers
 from django.contrib.auth.password_validation import validate_password
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connections, transaction
 
 
-EXCLUDED_MODELS = {"sessions.session"}
+# These generated definitions already exist after migrations. Their numeric
+# IDs differ between databases; fixture relations use natural keys instead.
+EXCLUDED_MODELS = {
+    "sessions.session",
+    "contenttypes.contenttype",
+    "auth.permission",
+}
+
+
+class FullPrecisionJSONEncoder(DjangoJSONEncoder):
+    def default(self, value):
+        # Django's default JSON encoder truncates datetime microseconds to
+        # milliseconds. A database restore must preserve the source precision.
+        if isinstance(value, datetime):
+            return value.isoformat()
+        return super().default(value)
 
 
 class Command(BaseCommand):
@@ -78,7 +97,7 @@ class Command(BaseCommand):
             }
             total_records = sum(source_counts.values())
             self.stdout.write(
-                f"{total_records} database records found; "
+                f"{total_records} application records found; "
                 f"{excluded_sessions} saved session(s) will not be restored."
             )
             if not options["apply"]:
@@ -99,10 +118,15 @@ class Command(BaseCommand):
                 raise CommandError(
                     "Expected exactly one source account with the administrator role."
                 )
+            if len(password) < 12 or source_admins[0].check_password(password):
+                raise CommandError(
+                    "ATHAR_ADMIN_PASSWORD must be at least 12 characters and "
+                    "different from the original shared administrator password."
+                )
             new_admin = user_model(username="admin", role="ADMIN")
             try:
                 validate_password(password, new_admin)
-            except Exception as exc:
+            except ValidationError as exc:
                 # Validation feedback can include characteristics of the secret;
                 # do not echo it in terminal output or logs.
                 raise CommandError(
@@ -113,13 +137,29 @@ class Command(BaseCommand):
 
             with tempfile.TemporaryDirectory(prefix="athar-full-restore-") as directory:
                 fixture = Path(directory) / "database.json"
-                call_command(
-                    "dumpdata",
-                    database=source_alias,
-                    all=True,
-                    exclude=["sessions"],
-                    output=str(fixture),
-                    verbosity=0,
+                ordered_models = serializers.sort_dependencies(
+                    [
+                        (
+                            app,
+                            [model for model in app.get_models() if model in models],
+                        )
+                        for app in apps.get_app_configs()
+                    ],
+                    allow_cycles=True,
+                )
+                fixture.write_text(
+                    serializers.serialize(
+                        "json",
+                        (
+                            obj
+                            for model in ordered_models
+                            for obj in model._base_manager.using(source_alias)
+                            .order_by("pk").iterator()
+                        ),
+                        use_natural_foreign_keys=True,
+                        cls=FullPrecisionJSONEncoder,
+                    ),
+                    encoding="utf-8",
                 )
                 records = json.loads(fixture.read_text(encoding="utf-8"))
                 admin_records = [
@@ -132,6 +172,16 @@ class Command(BaseCommand):
                 if len(admin_records) != 1:
                     raise CommandError("Could not safely identify the administrator in the fixture.")
                 admin_records[0]["fields"]["password"] = replacement_hash
+                # A connection tested on the original machine has not been
+                # tested here. Preserve its definition without activating it.
+                for record in records:
+                    if record.get("model") == "ai.providerconfiguration":
+                        record["fields"].update(
+                            is_active=False,
+                            tested_at=None,
+                            test_ok=False,
+                            test_message="Restored configuration; test before activating in this environment.",
+                        )
                 fixture.write_text(
                     json.dumps(records, ensure_ascii=False),
                     encoding="utf-8",
@@ -169,11 +219,13 @@ class Command(BaseCommand):
                     target.check_constraints()
         finally:
             connections[source_alias].close()
-            del connections.databases[source_alias]
+            del connections[source_alias]
+            connections.databases.pop(source_alias, None)
 
         self.stdout.write(
             self.style.SUCCESS(
                 "Database restored to development PostgreSQL; the shared demo "
-                "administrator password was replaced, and saved sessions were excluded."
+                "administrator password was replaced, saved sessions were excluded, "
+                "and provider configurations were preserved inactive."
             )
         )

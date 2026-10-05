@@ -24,9 +24,11 @@ The test-only `reportlab` dependency from `requirements-dev.txt` is also install
 - The existing `SESSION_SECRET` Replit secret supplies Django's signing key
   when `SECRET_KEY` is not set. Do not print or commit either secret.
 - The preview now uses Replit's development PostgreSQL through `DATABASE_URL`.
-  Historical content was copied from SQLite using `import_sqlite_content`.
-  The original SQLite file is unchanged. Demo accounts, sessions, AI settings,
-  and nullable links to local authors/analysis jobs were not copied.
+  Historical content was initially copied using `import_sqlite_content`.
+  `restore_sqlite_database` restores the full bundled snapshot into development
+  PostgreSQL, including accounts, activity, AI logs, and author/analysis links.
+  The SQLite source stays read-only and unchanged. Saved sessions are excluded,
+  and provider configurations are preserved inactive until tested here.
 - The default extractive AI mode needs no API key. External AI providers
   remain optional and must be configured through secrets or the app's provider UI.
 - Useful routes: `/`, `/discover/`, `/timeline/`, `/login/`, `/dashboard/`,
@@ -59,10 +61,12 @@ database through Publishing. If production already exists but is empty, use the
 Publishing option to copy development data after confirming it is still empty.
 Do not run schema mutations against Replit's managed production database.
 
-No shared demo administrator is copied. Create a separate administrator with
-a private password rather than using the README's demo login. Production file
-uploads still use local media storage; configure durable object storage before
-relying on uploaded files across Autoscale restarts.
+The full restore keeps the source administrator account but replaces its shared
+README password with the private `ATHAR_ADMIN_PASSWORD` Replit secret before
+importing it. This secret is only used by management commands, not runtime
+authentication. Remove it from Secrets after the import if it is no longer
+needed. Production file uploads still use local media storage; configure durable
+object storage before relying on uploaded files across Autoscale restarts.
 
 The content import is development-only, read-only against the SQLite source,
 transactional, and refuses to overwrite existing content:
@@ -70,4 +74,13 @@ transactional, and refuses to overwrite existing content:
 ```sh
 DJANGO_SETTINGS_MODULE=config.settings python manage.py import_sqlite_content
 # Add --apply only when the development content database is empty.
+```
+
+The full restore is also development-only and transactional. It refuses to
+overwrite development rows whose IDs are absent from the source snapshot:
+
+```sh
+DJANGO_SETTINGS_MODULE=config.replit python manage.py restore_sqlite_database
+# Requires ATHAR_ADMIN_PASSWORD in Replit Secrets:
+DJANGO_SETTINGS_MODULE=config.replit python manage.py restore_sqlite_database --apply
 ```

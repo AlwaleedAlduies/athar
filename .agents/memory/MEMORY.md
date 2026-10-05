@@ -1,1 +1,2 @@
 - [Python dependency inference](python-dependency-inference.md) — Replit package installs may infer obsolete docx from imports; retain python-docx instead.
+- [Backup verification](backup-verification.md) — use native-value comparisons; JSON roundtrips can hide lost timestamp precision.
