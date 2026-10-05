@@ -47,8 +47,8 @@ build = ["env", "DJANGO_SETTINGS_MODULE=config.replit_production", "python", "ma
 [userenv]
 
 [userenv.production]
-ALLOWED_HOSTS = "athar-ai.replit.app,localhost,127.0.0.1"
-CSRF_TRUSTED_ORIGINS = "https://athar-ai.replit.app"
+ALLOWED_HOSTS = "ai-athar.com,athar-ai.replit.app,localhost,127.0.0.1"
+CSRF_TRUSTED_ORIGINS = "https://ai-athar.com,https://athar-ai.replit.app"
 DEBUG = "false"
 DEMO_MODE = "false"
 DJANGO_SETTINGS_MODULE = "config.replit_production"
