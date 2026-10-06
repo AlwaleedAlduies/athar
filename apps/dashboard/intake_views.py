@@ -136,7 +136,7 @@ def analysis_status(request,pk):
 @require_POST
 def retry_analysis(request,pk):
     with transaction.atomic():
-        run=get_object_or_404(SourceAnalysis.objects.select_for_update().select_related('source','configuration'),pk=pk)
+        run=get_object_or_404(SourceAnalysis.objects.select_for_update(of=('self',)).select_related('source','configuration'),pk=pk)
         if not analysis_context(run)['can_retry']:
             messages.error(request,'الطلب قيد التنفيذ أو اكتملت مراجعته.')
         else:

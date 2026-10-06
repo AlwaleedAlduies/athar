@@ -1,0 +1,56 @@
+modules = ["python-3.12", "web", "nodejs-20", "bash", "postgresql-16"]
+
+[nix]
+channel = "stable-25_05"
+packages = ["cargo", "freetype", "glibcLocales", "libiconv", "libxcrypt", "openssl", "pkg-config", "postgresql", "rustc"]
+
+[agent]
+expertMode = true
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "DJANGO_SETTINGS_MODULE=config.replit python manage.py migrate --noinput && DJANGO_SETTINGS_MODULE=config.replit python manage.py runserver 0.0.0.0:5000"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 5001
+externalPort = 3000
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["env", "PORT=5000", "python", "deploy/replit_serve.py"]
+build = ["env", "DJANGO_SETTINGS_MODULE=config.replit_production", "python", "manage.py", "collectstatic", "--noinput"]
+
+[userenv]
+
+[userenv.production]
+ALLOWED_HOSTS = "ai-athar.com,athar-ai.replit.app,localhost,127.0.0.1"
+CSRF_TRUSTED_ORIGINS = "https://ai-athar.com,https://athar-ai.replit.app"
+DEBUG = "false"
+DEMO_MODE = "false"
+DJANGO_SETTINGS_MODULE = "config.replit_production"
+EMBEDDING_BACKEND = "hash"
+LLM_PROVIDER = "extractive"
