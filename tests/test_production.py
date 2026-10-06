@@ -123,3 +123,26 @@ class RailwayVolumeTests(SimpleTestCase):
              patch.dict(sys.modules, {'pwd': SimpleNamespace(getpwnam=lambda name: SimpleNamespace(pw_uid=1000, pw_gid=1000))}):
             with self.assertRaisesMessage(RuntimeError, 'mounted at MEDIA_ROOT'):
                 prepare_railway_volume()
+
+
+@override_settings(DEMO_MODE=False)
+class ReleaseInitializationTests(TestCase):
+    def test_initializes_once_and_never_resets_existing_admin(self):
+        User = get_user_model()
+        password = 'Test-release-secret-with-high-entropy-53819!'
+        with patch.dict(os.environ, {'ATHAR_INITIALIZE': 'true', 'ATHAR_INITIAL_ADMIN_PASSWORD': password}):
+            call_command('bootstrap_release', stdout=io.StringIO())
+            admin = User.objects.get(username='athar-admin')
+            self.assertTrue(admin.is_admin and admin.check_password(password))
+            self.assertEqual(HistoricalEvent.objects.visible().count(), 6)
+            with patch.dict(os.environ, {'ATHAR_INITIAL_ADMIN_PASSWORD': 'a-different-password'}):
+                call_command('bootstrap_release', stdout=io.StringIO())
+            admin.refresh_from_db()
+            self.assertTrue(admin.check_password(password))
+            self.assertEqual(User.objects.count(), 1)
+
+    def test_refuses_missing_password_without_creating_content(self):
+        with patch.dict(os.environ, {'ATHAR_INITIALIZE': 'true', 'ATHAR_INITIAL_ADMIN_PASSWORD': ''}):
+            with self.assertRaisesMessage(CommandError, 'strong initial'):
+                call_command('bootstrap_release', stdout=io.StringIO())
+        self.assertFalse(Entity.objects.exists())

@@ -37,6 +37,8 @@ def main():
     production = os.environ['DJANGO_SETTINGS_MODULE'] == 'config.production'
     call_command('check', deploy=production, fail_level='WARNING' if production else 'ERROR')
     call_command('migrate', interactive=False)
+    if os.getenv('ATHAR_INITIALIZE') == 'true':
+        call_command('bootstrap_release')
     call_command('collectstatic', interactive=False, verbosity=0)
     from config.wsgi import application
     # Only the private proxy network can reach this port.

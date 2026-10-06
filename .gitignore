@@ -17,3 +17,9 @@ backups/
 !.env.example
 production.env
 deploy-backups/
+ATHAR_PRESENTATION_DATA.json
+ATHAR_PRESENTATION_DATA_AUDIT.md
+db.sqlite3
+REPLIT_QA.md
+db.sqlite3
+db.sqlite3
